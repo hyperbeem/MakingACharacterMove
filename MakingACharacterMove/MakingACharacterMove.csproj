@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Background\ForegroundTile\Sign.cs" />
     <Compile Include="Background\Tile.cs" />
     <Compile Include="Background\Tiles\Floor.cs" />
     <Compile Include="Managers\BackgroundManager.cs" />

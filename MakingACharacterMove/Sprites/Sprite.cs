@@ -14,10 +14,24 @@ namespace MakingACharacterMove.Sprites
     {
         // Position of Entity
         protected Vector2 _Position;
+        protected float _RotationAngleTo;
+        protected float _Rotation;
 
         protected Texture2D _Texture;
+        protected Vector2 _Origin;
 
         protected float _MoveSpeed;
+
+        public Rectangle GetHitBox
+        {
+            get {
+                return new Rectangle(
+                        (int)_Position.X,
+                        (int)_Position.Y,
+                        _Texture.Width,
+                        _Texture.Height);
+                }
+        }
 
         public Sprite(Vector2 Position)
         {
@@ -29,8 +43,7 @@ namespace MakingACharacterMove.Sprites
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(_Texture, _Position, Color.White);
+            sb.Draw(_Texture, _Position,null, Color.White, _Rotation,_Origin,1,SpriteEffects.None, 0f);
         }
-
     }
 }

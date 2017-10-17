@@ -18,11 +18,24 @@ namespace MakingACharacterMove.Background
         protected Rectangle _DrawRectangle;
         protected int _Meta;
 
-        private int _TileDim = 32;
+        private int _TileDim;
 
-        public Tile(Vector2 Position, int Meta)
+        public Rectangle GetHitBox
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)_Position.X,
+                        (int)_Position.Y,
+                        _DrawRectangle.Width,
+                        _DrawRectangle.Height);
+            }
+        }
+
+        public Tile(Vector2 Position, int Meta, int TileDimension)
         {
             _Position = Position;
+            _TileDim = TileDimension;
             _Meta = Meta;
         }
 
@@ -39,7 +52,7 @@ namespace MakingACharacterMove.Background
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(_TextureSheet, _Position * _TileDim, _DrawRectangle, Color.White);
+            sb.Draw(_TextureSheet, _Position, _DrawRectangle, Color.White);
         }
     }
 }

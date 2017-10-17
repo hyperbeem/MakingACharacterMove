@@ -14,13 +14,14 @@ namespace MakingACharacterMove
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        BackgroundManager bm;
-        EntityManager em;
+        public static BackgroundManager backgroundManager;
+        public static EntityManager entityManager;
 
         public Moving()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -35,7 +36,7 @@ namespace MakingACharacterMove
             serviceContainer.AddService(Content);
 
             // New BackgroundManager
-            bm = new BackgroundManager();
+            backgroundManager = new BackgroundManager();
 
             // New Random
             Random r = new Random();
@@ -43,11 +44,13 @@ namespace MakingACharacterMove
             // Generates tiles with a random meta on the entire game screen
             for (byte x = 0; x < (GraphicsDevice.Viewport.Width / 32); x++)
                 for (byte y = 0; y < (GraphicsDevice.Viewport.Height / 32); y++)
-                    bm.AddTile(x, y, r.Next(0, 4));
+                    backgroundManager.AddBackgroundTile(x, y, r.Next(0, 4),32);
+
+            backgroundManager.AddForegroundTile(new Vector2(6 * 32, 8 * 32), 16);
 
             // New Entity Manager
-            em = new EntityManager();
-            em.SpawnPlayer(new Vector2(10, 10), 2.5f);
+            entityManager = new EntityManager();
+            entityManager.SpawnPlayer(new Vector2(10, 10), 2.5f);
             
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -63,8 +66,8 @@ namespace MakingACharacterMove
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            bm.Update();
-            em.Update();
+            entityManager.Update();
+            backgroundManager.Update();
 
             base.Update(gameTime);
         }
@@ -79,8 +82,8 @@ namespace MakingACharacterMove
             // Starts the Batch
             sb.Begin();
 
-            bm.Draw(sb);
-            em.Draw(sb);
+            backgroundManager.Draw(sb);
+            entityManager.Draw(sb);
 
             // Ends Batch
             sb.End();

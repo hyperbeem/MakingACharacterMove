@@ -16,6 +16,7 @@ namespace MakingACharacterMove.Managers
     public class EntityManager
     {
         private readonly List<Sprite> _EntityList;
+        public Player player;
 
         public EntityManager()
         {
@@ -24,18 +25,21 @@ namespace MakingACharacterMove.Managers
 
         public void SpawnPlayer(Vector2 Position, float Speed)
         {
-            var p = new Player(Position, Speed);
-            _EntityList.Add(p);
+            player = new Player(Position, Speed);
         }
 
         public void Update()
         {
+            player.Update();
+
             foreach (Sprite s in _EntityList)
                 s.Update();
         }
 
         public void Draw(SpriteBatch sb)
         {
+            player.Draw(sb);
+
             foreach (Sprite s in _EntityList)
                 s.Draw(sb);
         }

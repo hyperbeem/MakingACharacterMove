@@ -8,18 +8,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-
-namespace MakingACharacterMove.Background.Tiles
+namespace MakingACharacterMove.Background.ForegroundTile
 {
-    public class Floor : Tile
+    public class Sign : Tile
     {
-        public Floor(Vector2 Position, int Meta, int TileDimension) : base(Position, Meta, TileDimension)
+        public Sign(Vector2 Position,int TileDimension) : base(Position, 0, TileDimension)
         {
             _TextureSheet = Load();
             _DrawRectangle = CalculateDrawRectangle();
         }
 
-        public Floor(int X, int Y, int Meta, int TileDimension) : base(new Vector2(X, Y), Meta, TileDimension)
+        public Sign(int X, int Y, int TileDimension) : base(new Vector2(X* TileDimension, Y* TileDimension), 0, TileDimension)
         {
             _TextureSheet = Load();
             _DrawRectangle = CalculateDrawRectangle();
@@ -28,12 +27,15 @@ namespace MakingACharacterMove.Background.Tiles
         public override Texture2D Load()
         {
             ContentManager cm = Moving.serviceContainer.GetService<ContentManager>();
-            return cm.Load<Texture2D>("Tiles/Floor");
+            return cm.Load<Texture2D>("Tiles/Sign");
         }
 
         public override void Update()
         {
+            var ply = Moving.entityManager.player;
 
+            if (ply.GetHitBox.Intersects(GetHitBox))
+                ply.Colided();
         }
     }
 }
